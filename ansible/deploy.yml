@@ -1,0 +1,13 @@
+- name: Deploy Scientific Calculator Container
+  hosts: local
+  gather_facts: false
+
+  tasks:
+    - name: Run scientific calculator container
+      community.docker.docker_container:
+        name: scientific-calculator
+        image: deep20180/scientific-calculator:latest
+        state: started
+        recreate: true
+        tty: true
+        interactive: true
