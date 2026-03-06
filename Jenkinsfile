@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment {
+        IMAGE_NAME = 'deep20180/scientific-calculator'
+    }
     stages {
         stage('Clean Workspace Build Folder') {
             steps {
@@ -26,14 +28,36 @@ pipeline {
                 sh 'cd build && ctest --output-on-failure'
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME:latest .'
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $IMAGE_NAME:latest
+                        docker logout
+                    '''
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build and tests passed successfully'
+            echo 'Build, test, and Docker push completed successfully.'
         }
         failure {
-            echo 'Build failed'
+            echo 'Pipeline failed.'
         }
     }
 }
