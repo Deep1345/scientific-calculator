@@ -2,10 +2,9 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Clone Repository') {
+        stage('Clean Workspace Build Folder') {
             steps {
-                git branch: 'main', url: 'https://github.com/Deep1345/scientific-calculator.git'
+                sh 'rm -rf build'
             }
         }
 
@@ -33,7 +32,6 @@ pipeline {
         success {
             echo 'Build and tests passed successfully'
         }
-
         failure {
             echo 'Build failed'
         }
