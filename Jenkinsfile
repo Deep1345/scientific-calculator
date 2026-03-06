@@ -1,9 +1,12 @@
 pipeline {
     agent any
+
     environment {
         IMAGE_NAME = 'deep20180/scientific-calculator'
     }
+
     stages {
+
         stage('Clean Workspace Build Folder') {
             steps {
                 sh 'rm -rf build'
@@ -50,11 +53,18 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy with Ansible') {
+            steps {
+                sh 'ansible-playbook -i ansible/inventory ansible/deploy.yml'
+            }
+        }
+
     }
 
     post {
         success {
-            echo 'Build, test, and Docker push completed successfully.'
+            echo 'Build, test, Docker push, and Ansible deployment completed successfully.'
         }
         failure {
             echo 'Pipeline failed.'
