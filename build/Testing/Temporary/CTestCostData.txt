@@ -1,8 +1,0 @@
-CalculatorTest.SquareRootValid 1 0.00192165
-CalculatorTest.SquareRootInvalid 1 0.00186477
-CalculatorTest.FactorialValid 1 0.00132272
-CalculatorTest.FactorialInvalid 1 0.00136887
-CalculatorTest.NaturalLogValid 1 0.00126059
-CalculatorTest.NaturalLogInvalid 1 0.00133159
-CalculatorTest.PowerValid 1 0.00128154
----
