@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/scientific_calculator.dir/src/main.cpp.o -o scientific_calculator  libcalculator_lib.a 
